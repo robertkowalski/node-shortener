@@ -19,5 +19,6 @@
       "chai": ""
     , "mocha": ""
     , "sinon-chai": ""
+    , "sinon": ""
   }
 }
