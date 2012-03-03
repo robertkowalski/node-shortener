@@ -1,10 +1,10 @@
 {
     "name": "node-shortener"
   , "version": "0.0.1"
-  , "description": "url shortner for node"
+  , "description": "url shortener for node"
   , "keywords": ["url", "shortener"]
   , "author": "Robert Kowalski <rok@kowalski.gd>"
-  , "repository": { "type": "git", "url": "" }
+  , "repository": { "type": "git", "url": "git://github.com/robertkowalski/node-shortener.git" }
   , "engines": { "node": ">= 0.4.x < 0.8.0" }
   , "scripts": {
     "test": "make test"
