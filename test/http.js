@@ -32,8 +32,6 @@ describe('app should return http status codes', function(done) {
   });
 
   /* needs DB */  
-  
-  /* 
    describe('if valid json was posted', function(done) {
     it('should respond with http status 200', function(done) {
 
@@ -61,7 +59,7 @@ describe('app should return http status codes', function(done) {
       req.end();
     });
   });
-  */
+
   describe('if a PUT is sended', function(done) {
     it('should respond with http status 405', function(done) {
 
