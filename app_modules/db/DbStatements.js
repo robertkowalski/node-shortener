@@ -10,7 +10,7 @@ DbHelper.prototype =  {
    * @param {Object} the longurl e.g. "kowalski.gd"
    * @param {Object|Function} callback
    */
-  save: function(self, Model, longurl, next) {
+  save: function(Model, longurl, next) {
     Model.count({}, function(err, count) {
       var url = new Model({
         id: count,
@@ -21,7 +21,9 @@ DbHelper.prototype =  {
       
       url.save(function(err) {
         if (!err) {
-          return next(self, count, url);
+          return process.nextTick(function() {
+            next(count, url);
+          });
         }    
       });
     });
@@ -34,10 +36,12 @@ DbHelper.prototype =  {
    * @param {String} the shorturl
    * @param {Object|Function} callback
    */
-  update: function(self, Model, url, shortUrl, next) {
+  update: function(Model, url, shortUrl, next) {
     var query = { _id: url._id };
-    Model.update(query, { shorturl: shortUrl }, {}, function() { 
-      next(self, url._id);
+    Model.update(query, { shorturl: shortUrl }, {}, function() {
+      process.nextTick(function() {
+        next(url._id);
+      });
     });
   },
 
@@ -47,9 +51,11 @@ DbHelper.prototype =  {
    * @param {Object} the searchQuery object, e.g. { shorturl: "cFbHS" }
    * @param {Object|Function} callback
    */
-  find: function(self, Model, searchObj, next) {
+  find: function(Model, searchObj, next) {
     Model.findOne(searchObj, function(err, url) {
-      next(self, url);   
+      process.nextTick(function() {
+        next(url);
+      });
     });
   }
 

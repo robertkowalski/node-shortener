@@ -1,3 +1,5 @@
+var sanitizer = require('sanitizer');
+
 var PostHandler = function(dbStatements, Model, shortener) {
   this.dbStatements = dbStatements;
   this.model = Model;
@@ -6,40 +8,36 @@ var PostHandler = function(dbStatements, Model, shortener) {
 
 PostHandler.prototype = {
   
-  save: function(req, res) {
+  save: function(url, next) {
 
-    try {
-      var url = req.body.url; 
-    } catch(e) {
+    this.url = sanitizer.escape(url);
+  
+    var dbStatementSave = function(callback) {
+      this.dbStatements.save(this.model, this.url, function() {
+        callback(null, arguments[0], arguments[1]);
+      });
+    }.bind(this);
 
-    }
-    
-    if (!url) {
-      res.json({error: 400, reason: 'No url given'}, 400); 
-      return;
-    }
+    var createShortUrlAndUpdateDb = function(count, url, callback) {
+      var shortUrl = this.shortener.encode(count);
+      this.dbStatements.update(this.model, url, shortUrl, function() {
+        callback(null, arguments[0]);
+      });
+    }.bind(this);
 
-    this.url = req.body.url;
-    this.res = res;
-  
-    this.dbStatements.save(this, this.model, this.url, this.createShortUrl);  
-  },
-  
-  createShortUrl: function(self, count, url) {
-    var shortUrl = this.shortener.encode(count);
-    self.update(self, this.model, url, shortUrl);
-  },
-  
-  update: function(self, Url, url, shortUrl) {  
-    self.dbStatements.update(self, self.model, url, shortUrl, self.find)
-  },
-  
-  find: function(self, mongoId) {
-    self.dbStatements.find(self, self.model, {_id: mongoId}, self.dispatch);  
-  },
-  
-  dispatch: function(self, urlModel) {
-    self.res.json({url: urlModel.url, shorturl: urlModel.shorturl, date: urlModel.date}, 200);
+    var findEntry = function(mongoId, callback) {
+      this.dbStatements.find(this.model, {_id: mongoId}, function() {
+        callback(null, arguments[0]);
+      });
+    }.bind(this);
+
+    async.waterfall([
+        dbStatementSave,
+        createShortUrlAndUpdateDb,
+        findEntry
+    ], function (err, result) {
+      next(result);
+    }.bind(this));
   }
 };
 

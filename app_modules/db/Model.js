@@ -1,11 +1,11 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema, 
+    Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
 var Url = new Schema({
-  id: Number, 
-  shorturl: { type: String, index: true }, 
-  url: String, 
+  id: Number,
+  shorturl: { type: String, index: true },
+  url: String,
   date: Date
 });
 

@@ -1,24 +1,28 @@
 {
     "name": "node-shortener"
-  , "version": "0.0.1"
+  , "version": "0.0.2"
   , "description": "url shortener for node"
   , "keywords": ["url", "shortener"]
   , "author": "Robert Kowalski <rok@kowalski.gd>"
   , "repository": { "type": "git", "url": "git://github.com/robertkowalski/node-shortener.git" }
   , "engines": { "node": ">= 0.4.x < 0.8.0" }
   , "scripts": {
-    "test": "make test"
+      "test": "make test"
   }
   , "private": true
   , "dependencies": {
       "express": "2.5.2"
     , "jade": ">= 0.0.1"
     , "mongoose": "*"
+    , "async": "0.1.22"
+    , "sanitizer": "0.0.15"
+    , "validator": "0.4.6"
   }
   , "devDependencies": {
       "chai": ""
     , "mocha": ""
     , "sinon-chai": ""
     , "sinon": ""
+    , "nodemon": ""
   }
 }

@@ -1,2 +1,37 @@
 h1= title
-p Welcome to #{title}
+
+div(id='error', style='height: 20px; opacity: 0') Error
+
+form
+  input(id='url', name='url', type='input')
+  input(id='submit', type='submit', value='Shorten')
+
+script
+  var $error = $('#error'),
+      json;
+
+  $('form').on('click', 'input', function(e) {
+    e && e.preventDefault();
+    $.ajax({
+      type: "json",
+      url: "/post",
+      type: "post",
+      data: {
+        url: $('#url').val()
+      },
+      success: function(data) {
+        window.location = data.url; 
+      },
+      error: function(data) {
+        json = jQuery.parseJSON(data.responseText);
+        $error
+          .text(json.reason)
+          .stop()
+          .animate({opacity: 100}, 'fast', function() {
+            $error.animate({opacity: 0}, 'slow');
+          });   
+      }
+    });
+  });
+
+a(href="/random") Random fun mode
