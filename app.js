@@ -60,8 +60,13 @@ app.post('/api/', function(req, res){
   }
 
   try {
-    check(req.body.url).isUrl();
-    postHandler.save(req.body.url, function(urlModel) {
+    var url = req.body.url;
+    check(url).isUrl();
+    var re = /^http:/;
+    if (!re.test(url)) {
+      url = 'http://' + url;
+    }
+    postHandler.save(url, function(urlModel) {
       res.json({url: urlModel.url, shorturl: urlModel.shorturl, date: urlModel.date}, 200);
     });
   } catch (e) {
@@ -122,8 +127,13 @@ app.post('/post', function(req, res){
   }
 
   try {
-    check(req.body.url).isUrl();
-    postHandler.save(req.body.url, function(urlModel) {
+    var url = req.body.url;
+    check(url).isUrl();
+    var re = /^http:/;
+    if (!re.test(url)) {
+      url = 'http://' + url;
+    }
+    postHandler.save(url, function(urlModel) {
       req.session.url = urlModel.url;
       req.session.shorturl = urlModel.shorturl;
       res.json({url: "done"}, 200);
