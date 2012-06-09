@@ -5,7 +5,7 @@
   , "keywords": ["url", "shortener"]
   , "author": "Robert Kowalski <rok@kowalski.gd>"
   , "repository": { "type": "git", "url": "git://github.com/robertkowalski/node-shortener.git" }
-  , "engines": { "node": ">= 0.4.x < 0.8.0" }
+  , "engines": { "node": "0.6.17" }
   , "scripts": {
       "test": "make test"
   }
@@ -25,4 +25,5 @@
     , "sinon": ""
     , "nodemon": ""
   }
+  , "node": "0.6.17"
 }
