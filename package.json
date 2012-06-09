@@ -17,6 +17,7 @@
     , "async": "0.1.22"
     , "sanitizer": "0.0.15"
     , "validator": "0.4.6"
+    , "connect-mongo": ""
   }
   , "devDependencies": {
       "chai": ""

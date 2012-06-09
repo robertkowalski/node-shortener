@@ -19,7 +19,7 @@ var express = require('express'),
     // Handler / Delegation
     PostHandler = require('./app_modules/Handler'),
     async = require('async'),
-    MemStore = express.session.MemoryStore,
+    MongoStore = require('connect-mongo')(express),
     check = require('validator').check;
 
 var app = module.exports = express.createServer();
@@ -32,8 +32,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({secret: 'alessios', store: MemStore({
-    reapInterval: 60000 * 10
+
+  app.use(express.session({secret: 'alessios', store: MongoStore({
+    url: 'mongodb://localhost/sessions'
   })}));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
