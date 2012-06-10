@@ -120,7 +120,6 @@ app.del('/api/', function(req, res) {
 });
 
 app.post('/post', function(req, res){
-
   if (!req.body || !req.body.url) {
     res.contentType('application/json');
     res.json({error: 400, reason: "No url given"}, 400);
@@ -147,7 +146,6 @@ app.post('/post', function(req, res){
 });
 
 app.get('/done', function(req, res){
-
   if (!req.session.url || !req.session.shorturl) {
     res.render('error', {
       reason: 'Please submit a url',
@@ -163,7 +161,6 @@ app.get('/done', function(req, res){
 });
 
 app.get('/jump/:shorturl', function(req, res){
-
   this.response = function(u) {
     if (!u.shorturl) {
       res.render('error', {
@@ -181,14 +178,16 @@ app.get('/jump/:shorturl', function(req, res){
 });
 
 app.get('/random', function(req, res){
-
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   this.response = function(u) {
     res.redirect(u.url, 301);
   };
 
+  var docId;
   Url.count({}, function(err, count) {
-    var docId = Math.floor(Math.random() * (count - 0 + 1)) + 0;
+    docId = Math.floor(Math.random() * (count - 1 - 0 + 1)) + 0;
     statements.find(Url, { id: docId }, this.response);
+
   });
 });
 
