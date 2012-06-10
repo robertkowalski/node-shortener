@@ -24,7 +24,6 @@
     , "mocha": ""
     , "sinon-chai": ""
     , "sinon": ""
-    , "nodemon": ""
   }
   , "node": "0.6.17"
 }
